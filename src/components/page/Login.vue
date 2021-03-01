@@ -46,6 +46,8 @@
 </template>
 
 <script>
+
+import { fetchData } from '../../api/index';
 export default {
     //data: function() {
     //    return {
@@ -59,10 +61,12 @@ export default {
             //},
     //    };
     //},
+    
     methods: {
+        
         submitForm() {
-			this.$router.push('/');
-			localStorage.setItem('ms_username', 'caseList');
+			this.$router.push('/dashboard');
+			//localStorage.setItem('ms_username', 'caseList');
 			/*
             this.$refs.login.validate(valid => {
                 if (valid) {

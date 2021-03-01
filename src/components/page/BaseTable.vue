@@ -2,8 +2,8 @@
     <div>
         <div class="crumbs">
             <el-breadcrumb separator="/">
-                <el-breadcrumb-item>
-                    <i class="el-icon-lx-cascades"></i> 基础表格
+                <el-breadcrumb-item >
+                    <i class="el-icon-lx-cascades"></i>  用例执行
                 </el-breadcrumb-item>
             </el-breadcrumb>
         </div>
@@ -103,7 +103,13 @@
 
 <script>
 import { fetchData } from '../../api/index';
+import {getCaseInfo} from "../../api";
 export default {
+	//new
+	mounted() {
+        this.requestData();
+    },
+	
     name: 'basetable',
     data() {
         return {
@@ -125,6 +131,7 @@ export default {
     },
     created() {
         this.getData();
+		this.requestData();
     },
     methods: {
         // 获取 easy-mock 的模拟数据
@@ -134,6 +141,15 @@ export default {
                 this.tableData = res.list;
                 this.pageTotal = res.pageTotal || 50;
             });
+        },
+		
+		async requestData () {
+            try {
+                let res  = await getCaseInfo();
+                console.log(res);
+            } catch (e) {
+                console.log(e);
+            }
         },
         // 触发搜索按钮
         handleSearch() {

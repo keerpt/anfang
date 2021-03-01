@@ -7,3 +7,10 @@ export const fetchData = query => {
         params: query
     });
 };
+
+export function getCaseInfo() {
+    return request({
+        url:'/case/getCaseInfo/',
+        method: 'get',
+    })
+}
