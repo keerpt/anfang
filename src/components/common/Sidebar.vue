@@ -51,6 +51,7 @@
 
 <script>
 import bus from '../common/bus';
+import {getCaseInfo} from "../../api";
 export default {
     data() {
         return {
@@ -62,93 +63,37 @@ export default {
                     title: '系统首页'
                 },
                 {
-                    icon: 'el-icon-lx-table',
-                    index: 'table',
-                    title: '用例表格'
+                    icon: 'el-icon-tickets',
+                    index: 'resultAll',
+                    title: '执行情况'
                 },
                
                 {
-                    icon: 'el-icon-lx-calendar',
-                    index: '3',
+                    icon: 'el-icon-edit-outline',
+                    index: 'casePerform',
                     title: '用例执行',
                     subs: [
+					
+					
+						
+                        /*
                         {
-                            index: 'form',
+                            index: 'bind',
                             title: '设备绑定'
-                        },
-                        /*{
-                            index: '3-2',
-                            title: '三级菜单',
-							
-                            subs: [
-                                {
-                                    index: 'editor',
-                                    title: '富文本编辑器'
-                                },
-                                {
-                                    index: 'markdown',
-                                    title: 'markdown编辑器'
-                                }
-                            ]
-                        },*/
-                        {
-                            index: 'upload',
-                            title: '移动侦测'
                         }
+						*/
                     ]
+					
                 },
-				/*
-                {
-                    icon: 'el-icon-lx-emoji',
-                    index: 'icon',
-                    title: '自定义图标'
-                },*/
+				
                 {
                     icon: 'el-icon-pie-chart',
                     index: 'charts',
                     title: '生态长稳'
                 },
-				/*
-                {
-                    icon: 'el-icon-rank',
-                    index: '6',
-                    title: '拖拽组件',
-                    subs: [
-                        {
-                            index: 'drag',
-                            title: '拖拽列表'
-                        },
-                        {
-                            index: 'dialog',
-                            title: '拖拽弹框'
-                        }
-                    ]
-                },*/
 				
-                /*{
-                    icon: 'el-icon-lx-global',
-                    index: 'i18n',
-                    title: '语言切换'
-                },*/
-				/*
                 {
-                    icon: 'el-icon-lx-warn',
-                    index: '7',
-                    title: '错误处理',
-                    subs: [
-                        {
-                            index: 'permission',
-                            title: '权限测试'
-                        },
-                        {
-                            index: '404',
-                            title: '404页面'
-                        }
-                    ]
-                },
-				*/
-                {
-                    //icon: 'el-icon-lx-redpacket_fill',
+                    icon: 'el-icon-phone-outline',
                     index: 'about',
                     title: '联系我们'
                 }
@@ -166,7 +111,43 @@ export default {
             this.collapse = msg;
             bus.$emit('collapse-content', msg);
         });
-    }
+		
+		 this.requestData();
+    },
+	
+	//new-2021/3/2 发送请求获取左侧菜单数据
+	methods: {	      
+		async requestData() {
+            try {
+                let res  = await getCaseInfo();
+                
+				var  menuList = "";
+				menuList= res.data;
+				//console.log(menuList);
+				let itemsnew = this.items;
+				let itemsnew1 = itemsnew[2];
+				//console.log(itemsnew1);
+				//let itemsnew2 = itemsnew1.subs;
+				let arr1 = [];								
+				for(var i=0;i<menuList.length;i++){
+					arr1.push({index:'/perform/'+i,  title:menuList[i]});
+					
+				}
+				//console.log(arr1);
+				itemsnew1.subs=arr1;
+				//console.log(itemsnew1.subs)
+				itemsnew[2] = itemsnew1;
+				//console.log(itemsnew[2]);
+				
+				this.items = itemsnew;
+				//console.log(this.items);
+            } catch (e) {
+                console.log(e);
+            }
+			//return menuList;
+        },		
+		
+    },
 };
 </script>
 
